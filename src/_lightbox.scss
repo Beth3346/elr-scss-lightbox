@@ -1,0 +1,151 @@
+// Lightbox
+
+// this should be its own mixin called elr-screen-overlay
+@mixin elr-screen-overlay($config: ()) {
+    $config: extend((
+        overlay-color: $black,
+        opacity: .8
+    ), $config);
+
+    $overlay-color: map-get($config, overlay-color);
+    $opacity: map-get($config, opacity);
+
+    background-color: rgba($overlay-color, $opacity);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+
+    .close {
+        font-size: to-rems(18px);
+        margin: 0;
+        padding: to-rems(20px);
+        border: 0;
+        background: none;
+        color: $white;
+        position: relative;
+        top: to-rems(20px);
+        left: 95%;
+        cursor: pointer;
+    }
+}
+
+@mixin elr-lightbox-slideshow($config: ()) {
+    $config: extend((
+        overlay-color: $black,
+        opacity: .8,
+        image-size: 75px,
+        list-position: 'bottom-left'
+    ), $config);
+
+    $overlay-color: map-get($config, overlay-color);
+    $opacity: map-get($config, opacity);
+    $image-size: map-get($config, image-size);
+    $list-position: map-get($config, list-position);
+
+    @include elr-screen-overlay(
+        $config: (
+            overlay-color: $overlay-color,
+            opacity: $opacity
+        )
+    );
+
+    img {
+        @include elr-centerer;
+        height: 70%;
+    }
+
+    .thumbnail-list {
+        @include elr-clearfix;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        list-style: none;
+        height: to-rems($image-size);
+
+        @if ($list-position == 'top-right') {
+            top: 0;
+            right: 0;
+        } @else if ($list-position == 'top-left') {
+            top: 0;
+            left: 0;
+        } @else if ($list-position == 'bottom-right') {
+            bottom: -20px;
+            right: 0;
+        } @else if ($list-position == 'bottom-left') {
+            bottom: -20px;
+            left: 0;
+        } @else {
+            display: none;
+        }
+
+        li {
+            @include elr-square($config: (width: $image-size));
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            @include elr-square($config: (width: $image-size));
+            padding: 0;
+            margin: 0;
+            position: relative;
+        }
+    }
+
+    .lightbox-nav {
+        @include elr-clearfix;
+        position: absolute;
+        top: 45%;
+        width: 100%;
+
+        button {
+            @include elr-square($config: (width: 75px));
+            font-size: to-rems(36px);
+            border: 0;
+            background-color: rgba($white, .4);
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba($white, .7);
+            }
+        }
+
+        .prev { float: left; }
+        .next { float: right; }
+    }
+}
+
+@mixin elr-thumbnail-list($config: ()) {
+    $config: extend((
+        border-color: $white,
+        glow: $elr-blue
+    ), $config);
+
+    $border-color: map-get($config, border-color);
+    $glow: map-get($config, glow);
+
+    @include elr-clearfix;
+    padding: to-rems(10px) 0;
+    list-style: none;
+
+    li {
+        margin: 0 to-rems(10px) to-rems(10px) 0;
+        float: left;
+        padding: 0;
+    }
+
+    img {
+        @include elr-thumbnail($config: (border-color: $border-color));
+        padding: 0;
+        margin: 0;
+        transition: box-shadow, .3s;
+
+        &:hover {
+            box-shadow: $grey 0 0 0 1px, $glow 0 0 3px 2px;
+        }
+    }
+}
