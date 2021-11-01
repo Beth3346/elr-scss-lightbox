@@ -22,7 +22,7 @@
       integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/lightbox.css" />
+    <link rel="stylesheet" href="./css/demo.css" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
 
@@ -37,8 +37,64 @@
       <div class="content-holder">
         <div class="demo-content">
           <h1 class="main-heading">Lightbox</h1>
+          <button id="js-launch-lightbox">Launch Modal</button>
+          <div id="js-lightbox" class="lightbox active">
+            <button class="close">&times;</button>
+            <div class="lightbox-content" id="js-lightbox-content">
+              <figure>
+                <img src="https://placekitten.com/1000/700" alt="Photo of a Kitten" />
+              </figure>
+              <nav class="lightbox-pager"><button>Prev</button><button>Next</button></nav>
+            </div>
+            <nav class="lightbox-nav">
+              <ul>
+                <li>
+                  <button class="js-image-nav">
+                    <img src="https://placekitten.com/1000/700" alt="Photo of a Kitten" />
+                  </button>
+                </li>
+                <li>
+                  <button class="js-image-nav">
+                    <img src="https://placekitten.com/900/700" alt="Photo of a Kitten" />
+                  </button>
+                </li>
+                <li>
+                  <button class="js-image-nav">
+                    <img src="https://placekitten.com/1100/900" alt="Photo of a Kitten" />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
   </body>
+  <script>
+    const button = document.getElementById('js-launch-lightbox');
+    const lightbox = document.getElementById('js-lightbox');
+    const buttonImage = document.getElementsByClassName('js-image-nav');
+    console.log('button', button);
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log('show lightbox');
+
+      lightbox.classList.add('active');
+    });
+
+    document.getElementById('js-lightbox-content').addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    for (const button of buttonImage) {
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+      }); 
+    }
+  
+    lightbox.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+  </script>
 </html>
