@@ -1,2 +1,108 @@
 @import "elr-scss-functions/src/main";
-@import "src/lightbox";
+// Lightbox
+
+@mixin elr-screen-overlay($config: ()) {
+  $config: extend(
+    (
+      overlay-color: #000,
+      opacity: 0.8,
+    ),
+    $config
+  );
+
+  $overlay-color: map-get($config, overlay-color);
+  $opacity: map-get($config, opacity);
+
+  background-color: rgba($overlay-color, $opacity);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  &.active {
+    visibility: visible;
+  }
+
+  .close {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: #fff;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    line-height: 1;
+
+    &:focus {
+      box-shadow: 0 0 1px 2px #1976d2;
+    }
+  }
+
+  figure {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+  }
+
+  button {
+    border: 0;
+    background-color: transparent;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .lightbox-content {
+    max-width: 900px;
+    height: 70%;
+    position: relative;
+    top: 40px;
+  }
+
+  .lightbox-pager {
+    width: 100%;
+  }
+
+  .lightbox-nav {
+    max-height: 100px;
+    min-width: 100%;
+    margin: 16px;
+    padding-left: 16px;
+    position: relative;
+    z-index: 1;
+
+    ul {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    ul,
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    img {
+      max-height: 100px;
+    }
+
+    button {
+      padding: 0;
+    }
+  }
+}
